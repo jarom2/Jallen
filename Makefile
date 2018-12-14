@@ -1,6 +1,3 @@
-#Output program name to make this Makefile more reusable between programming exercises
-PNAME = crypto
-
 #Project Tree Structure
 LDIR = lib
 SDIR = src
@@ -13,33 +10,25 @@ INC        = $(SDIR)
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
 CPPFLAGS   = -std=c++11 -g
+LINKFLAGS  = -lrt -pthread
 
 #The full command for compilation
 CPPC       = g++ $(CPPFLAGS) $(INC_PARAMS) $(DEPFLAGS)
 CPPL       = g++ $(CPPFLAGS)
 POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
 
+#List all main cpp files
+SRCS   = mainMQ1.cpp mainMQ2.cpp ForkedClient.cpp
+	#mqcalc.cpp mqpart1.cpp mqpart2.cpp smcalc.cpp smpart1.cpp smpart2.cpp
+_BINS  = $(patsubst %.cpp,$(BDIR)/%,$(SRCS))
+
 #Default make target: setup the environment, build the program, build and run tests
 .PHONY: all
-all: | toolchain $(PNAME) test
-
-#List all sources to be included in the project (except main.cpp)
-_SRCS = Crypto.cpp CryptoNone.cpp CryptoShift.cpp
-
-#Derived variable SRCS used by dependency management
-SRCS  = main.cpp test.cpp $(_SRCS)
-
-#Derived variables POBJ/TOBJ lists dependencies for the output binaries
-POBJ = $(ODIR)/main.o $(patsubst %.cpp, $(ODIR)/%.o, $(_SRCS))
-TOBJ = $(ODIR)/test.o $(patsubst %.cpp, $(ODIR)/%.o, $(_SRCS))
+all: | toolchain $(_BINS)
 
 #Program link step
-$(BDIR)/$(PNAME): $(POBJ)
-	$(CPPL) -o $@ $^
-
-#Unit Test link step
-$(BDIR)/test: $(TOBJ)
-	$(CPPL) -o $@ $^
+$(BDIR)/%: $(ODIR)/%.o
+	$(CPPL) -o $@ $^ $(LINKFLAGS)
 
 #All compilation units in the project
 $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
@@ -51,13 +40,8 @@ $(ODIR)/%.o: $(SDIR)/%.cpp $(DDIR)/%.d
 clean:
 	rm -rf $(DDIR) $(ODIR) $(BDIR)
 
-.PHONY: toolchain pmain tmain $(PNAME) test
+.PHONY: toolchain
 toolchain: | $(BDIR) $(ODIR) $(DDIR)
-pmain: $(BDIR)/$(PNAME)
-tmain: $(BDIR)/test
-$(PNAME): | toolchain pmain
-test: | toolchain tmain
-	./$(BDIR)/test
 
 $(DDIR):
 	@mkdir $(DDIR)
