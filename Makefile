@@ -18,7 +18,7 @@ CPPL       = g++ $(CPPFLAGS)
 POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
 
 #List all main cpp files
-SRCS   = mainMQ1.cpp mainMQ2.cpp ForkedClient.cpp
+SRCS   = shmForked.cpp shmClient.cpp shmServer1.cpp
 	#mqcalc.cpp mqpart1.cpp mqpart2.cpp smcalc.cpp smpart1.cpp smpart2.cpp
 _BINS  = $(patsubst %.cpp,$(BDIR)/%,$(SRCS))
 
