@@ -1,0 +1,1 @@
+LINKFLAGS  = -pthread -lopencv_highgui -lopencv_imgproc -lopencv_core
