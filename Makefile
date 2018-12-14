@@ -1,5 +1,5 @@
 #Output program name to make this Makefile more reusable between programming exercises
-PNAME = transformer
+PNAME = Array
 
 #Project Tree Structure
 LDIR = lib
@@ -13,7 +13,7 @@ INC        = $(SDIR)
 INC_PARAMS = $(foreach d, $(INC), -I$d)
 DEPFLAGS   = -MT $@ -MMD -MP -MF $(DDIR)/$*.Td
 CPPFLAGS   = -std=c++11 -g -O0
-include Makefile.link
+LINKFLAGS  = 
 
 #The full command for compilation
 CPPC       = g++ $(CPPFLAGS) $(INC_PARAMS) $(DEPFLAGS)
@@ -25,14 +25,13 @@ POSTCPPC   = @mv -f $(DDIR)/$*.Td $(DDIR)/$*.d && touch $@
 all: | toolchain $(PNAME)
 
 #List all sources to be included in the project (except main.cpp)
-_SRCS = Transformer.cpp TransN.cpp TransBW.cpp TransED.cpp
+_SRCS = 
 
 #Derived variable SRCS used by dependency management
 SRCS  = main.cpp $(_SRCS)
 
 #Derived variables POBJ/TOBJ lists dependencies for the output binaries
 POBJ = $(ODIR)/main.o $(patsubst %.cpp, $(ODIR)/%.o, $(_SRCS))
-TOBJ = $(ODIR)/test.o $(patsubst %.cpp, $(ODIR)/%.o, $(_SRCS))
 
 #Program link step
 $(BDIR)/$(PNAME): $(POBJ)
