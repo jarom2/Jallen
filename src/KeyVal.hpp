@@ -39,7 +39,8 @@ public:
 *  @param key Key associated with value
 *  @param val Value which is stored at location key
 */
-virtual void insert(const K &key, const V &val) = 0;
+virtual void insert(const K &key,
+const V &val) = 0;
 /**
 *  @brief Remove an object from the associative array
 *
@@ -76,6 +77,7 @@ change
 *  @param callback Function to be called with each item in the 
 associative array
 */
-virtual void forEach(std::function<void(const K &key, V &val)> callback) = 0;
+virtual void forEach(std::function<void(const K &key, V &val)> callback) 
+= 0;
 };
 #endif /* KEYVAL_HPP */

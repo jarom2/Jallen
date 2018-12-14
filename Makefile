@@ -1,5 +1,5 @@
 #Output program name to make this Makefile more reusable between programming exercises
-PNAME = BST
+PNAME = RBT
 
 #Project Tree Structure
 LDIR = lib
@@ -28,7 +28,7 @@ all: | toolchain $(PNAME)
 _SRCS = 
 
 #Derived variable SRCS used by dependency management
-SRCS = main2.cpp $(_SRCS)
+SRCS = main.cpp $(_SRCS)
 
 #Derived variables POBJ/TOBJ lists dependencies for the output binaries
 POBJ = $(ODIR)/main.o $(patsubst %.cpp, $(ODIR)/%.o, $(_SRCS))

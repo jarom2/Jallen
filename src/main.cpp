@@ -1,22 +1,130 @@
-#include <iostream>
-#include "BinTree.hpp"
-#include "KeyVal.hpp"
+static const char* numbers[] = {
+"zero",
+"one",
+"two",
+"three",
+"four",
+"five",
+"six",
+"seven",
+"eight",
+"nine",
+"ten",
+"eleven",
+"twelve",
+"thirteen",
+"fourteen",
+"fifteen",
+"sixteen",
+"seventeen",
+"eighteen",
+"nineteen",
+"twenty",
+"twenty one",
+"twenty two",
+"twenty three",
+"twenty four",
+"twenty five",
+"twenty six",
+"twenty seven",
+"twenty eight",
+"twenty nine",
+"thirty",
+"thirty one",
+"thirty two",
+"thirty three",
+"thirty four",
+"thirty five",
+"thirty six",
+"thirty seven",
+"thirty eight",
+"thirty nine",
+"forty",
+"forty one",
+"forty two",
+"forty three",
+"forty four",
+"forty five",
+"forty six",
+"forty seven",
+"forty eight",
+"forty nine",
+"fifty",
+"fifty one",
+"fifty two",
+"fifty three",
+"fifty four",
+"fifty five",
+"fifty six",
+"fifty seven",
+"fifty eight",
+"fifty nine",
+"sixty",
+"sixty one",
+"sixty two",
+"sixty three",
+"sixty four",
+"sixty five",
+"sixty six",
+"sixty seven",
+"sixty eight",
+"sixty nine",
+"seventy",
+"seventy one",
+"seventy two",
+"seventy three",
+"seventy four",
+"seventy five",
+"seventy six",
+"seventy seven",
+"seventy eight",
+"seventy nine",
+"eighty",
+"eighty one",
+"eighty two",
+"eighty three",
+"eighty four",
+"eighty five",
+"eighty six",
+"eighty seven",
+"eighty eight",
+"eighty nine",
+"ninety",
+"ninety one",
+"ninety two",
+"ninety three",
+"ninety four",
+"ninety five",
+"ninety six",
+"ninety seven",
+"ninety eight",
+"ninety nine",
+};
 
-int main(){
-    BinTree<std::string, int> bst;
- 
-    bst.insert("5", 5);
-    bst.insert("3", 3);
-    bst.insert("6", 6);
-    BinTree<std::string, int> bst3(bst);
-    BinTree<std::string, int> bst2;
-    bst2 = bst;
-    bst.del("5");
-    bst2.forEach([](const std::string &key, const int &val){std::cout << "Key: " << key <<std::endl;
-                         std::cout << "Val: " << val << std::endl;});
-    
-    auto test = bst2.get("6");
-    *(test) = 420;
-    std::cout << "Before exit." << std::endl;
-    return 0;
+#include <iostream>
+#include <string>
+
+#include "RedBlack.hpp"
+template <typename KeyType, typename ValType>
+class map : public RedBlack<KeyType, ValType> {};
+
+int main() {
+map<int, std::string> numeric;
+
+auto insertSet = [&numeric](std::function<int(int)> transform) {
+for (int i = 0; i < 20; ++i) {
+int n = transform(i);
+std::cout << "Insert " << n << std::endl;
+numeric.insert(n, numbers[n]);
+numeric.printTree();
+std::cout << std::endl;
+}
+};
+
+insertSet([](int i) { return 80 + i; });
+insertSet([](int i) { return 20 - i; });
+insertSet([](int i) { return 40 - i; });
+insertSet([](int i) { return 60 + i; });
+
+return 0;
 }
