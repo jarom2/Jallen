@@ -1,2 +1,2 @@
 # Jallen
-All of my stuff
+Some school projects
